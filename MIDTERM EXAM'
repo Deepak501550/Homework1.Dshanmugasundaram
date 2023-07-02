@@ -1,17 +1,28 @@
-import sympy as sp
+import random
+import matplotlib.pyplot as plt
 
-# Define the variable
-x = sp.symbols('x')
+def random_walk(n):
+  """
+  Performs a 1D random walk with n timepoints.
 
-# Define the quadratic function
-f = (x + 1)**2 * (x + 3)**2
+  Args:
+    n: The number of timepoints.
 
-# Expand the equation
-expanded_eq = sp.expand(f)
+  Returns:
+    A list of the positions of the object at each timepoint.
+  """
 
-# Find the roots
-roots = sp.solve(expanded_eq, x)
+  positions = []
+  for i in range(n):
+    position = positions[-1] if positions else 0
+    step = random.choice([-1, 1])
+    positions.append(position + step)
 
-# Print the roots
-for root in roots:
-    print(f"Root: {root}")
+  return positions
+
+if __name__ == "__main__":
+  positions = random_walk(100)
+  plt.plot(positions)
+  plt.xlabel("Time")
+  plt.ylabel("Position")
+  plt.show()
