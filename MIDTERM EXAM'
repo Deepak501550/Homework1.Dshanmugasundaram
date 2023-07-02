@@ -1,39 +1,17 @@
-import numpy as np
-from scipy.integrate import solve_ivp
-import matplotlib.pyplot as plt
+import sympy as sp
 
-def predator_prey(t, y, alpha, beta, gamma, delta):
-    x, y = y
-    dxdt = alpha * x - beta * x * y
-    dydt = delta * x * y - gamma * y
-    return [dxdt, dydt]
+# Define the variable
+x = sp.symbols('x')
 
-# Define the model parameters
-alpha = 1.2
-beta = 0.6
-gamma = 0.8
-delta = 0.3
+# Define the quadratic function
+f = (x + 1)**2 * (x + 3)**2
 
-# Define the initial conditions
-x0 = 2.0
-y0 = 1.0
+# Expand the equation
+expanded_eq = sp.expand(f)
 
-# Define the time span
-t_start = 0
-t_end = 10
-t_steps = 100
+# Find the roots
+roots = sp.solve(expanded_eq, x)
 
-# Solve the ODE system
-sol = solve_ivp(predator_prey, [t_start, t_end], [x0, y0], args=(alpha, beta, gamma, delta), dense_output=True)
-
-# Evaluate the solution at the desired time points
-t = np.linspace(t_start, t_end, t_steps)
-y = sol.sol(t)
-
-# Plot the results
-plt.plot(t, y[0], label='Prey')
-plt.plot(t, y[1], label='Predator')
-plt.xlabel('Time')
-plt.ylabel('Population')
-plt.legend()
-plt.show()
+# Print the roots
+for root in roots:
+    print(f"Root: {root}")
